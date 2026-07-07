@@ -575,6 +575,12 @@
             </div>
 
             <form id="form-aula-valorize" class="space-y-4 mt-6 popup-form">
+                <input type="hidden" id="utm_source" name="utm_source" value="">
+                <input type="hidden" id="utm_term" name="utm_term" value="">
+                <input type="hidden" id="utm_campaign" name="utm_campaign" value="">
+                <input type="hidden" id="utm_medium" name="utm_medium" value="">
+                <input type="hidden" id="utm_content" name="utm_content" value="">
+                <input type="hidden" id="url" name="url" value="">
                 <div id="popup-form-body">
                 <div>
                     <label for="lead-nome" class="block text-sm font-medium text-gray-300 mb-1">Nome</label>
@@ -612,8 +618,7 @@
         AOS.init({ once: true, offset: 50, duration: 800 });
 
         const CONFIG = {
-            produto: 'aula-gratuita-instituto-valorize-v2',
-            webhook: 'https://hook.us2.make.com/SEU_WEBHOOK_AQUI',
+            webhook: 'https://hook.us2.make.com/aok1ucg2l66vkz13qg8rkc2e3atgx3nh?produto=HB-WN',
             redirect: 'https://SEU_LINK_DE_REDIRECIONAMENTO_AQUI'
         };
 
@@ -661,15 +666,17 @@
             if (e.key === 'Escape' && popup.classList.contains('flex')) fecharPopup();
         });
 
-        function getUtmParams() {
+        function preencherCamposTracking() {
             const params = new URLSearchParams(window.location.search);
-            const utms = {};
-            ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach((key) => {
-                const val = params.get(key);
-                if (val) utms[key] = val;
+            ['utm_source', 'utm_term', 'utm_campaign', 'utm_medium', 'utm_content'].forEach((key) => {
+                const el = document.getElementById(key);
+                if (el) el.value = params.get(key) || '';
             });
-            return utms;
+            const urlEl = document.getElementById('url');
+            if (urlEl) urlEl.value = window.location.href;
         }
+
+        preencherCamposTracking();
 
         function buildRedirectUrl(base, data) {
             const url = new URL(base, window.location.origin);
@@ -710,18 +717,20 @@
             const nome = form.querySelector('[name="nome"]').value.trim();
             const email = form.querySelector('[name="email"]').value.trim();
             const telefone = '+55' + rawPhone;
-            const utms = getUtmParams();
 
             const payload = {
-                nome,
-                email,
-                telefone,
-                ...utms,
-                url: window.location.href,
-                produto: CONFIG.produto
+                nome: nome,
+                email: email,
+                telefone: telefone,
+                utm_source: document.getElementById('utm_source')?.value || '',
+                utm_term: document.getElementById('utm_term')?.value || '',
+                utm_campaign: document.getElementById('utm_campaign')?.value || '',
+                utm_medium: document.getElementById('utm_medium')?.value || '',
+                utm_content: document.getElementById('utm_content')?.value || '',
+                url: document.getElementById('url')?.value || window.location.href
             };
 
-            const redirectData = { nome, email, telefone, produto: CONFIG.produto, ...utms };
+            const redirectData = { ...payload };
             const webhookAtivo = isConfiguredUrl(CONFIG.webhook);
             const redirectAtivo = isConfiguredUrl(CONFIG.redirect);
 

@@ -226,6 +226,11 @@
             -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
         }
 
+        .version-bar {
+            background: linear-gradient(90deg, rgba(232,184,74,0.08), rgba(232,184,74,0.14), rgba(232,184,74,0.08));
+            border-bottom: 1px solid rgba(232,184,74,0.2);
+        }
+
         @media (min-width: 1024px) {
             body.custom-cursor, body.custom-cursor * { cursor: none !important; }
             .cursor-dot, .cursor-ring {
@@ -255,6 +260,16 @@
 
     <div class="cursor-dot hidden lg:block" aria-hidden="true"></div>
     <div class="cursor-ring hidden lg:block" aria-hidden="true"></div>
+
+    <div class="version-bar relative z-50">
+        <div class="container mx-auto px-6 py-2.5 flex items-center justify-center">
+            <a href="v2/" class="inline-flex items-center gap-2 text-[11px] md:text-xs font-bold uppercase tracking-[0.18em] text-brand-primary hover:text-brand-accent transition-colors">
+                <i class="fas fa-bolt"></i>
+                Versão resumida
+                <i class="fas fa-arrow-right text-[10px]"></i>
+            </a>
+        </div>
+    </div>
 
     <!-- HERO -->
     <header id="hero" class="relative overflow-hidden md:min-h-screen md:flex md:items-center md:py-16">
@@ -657,6 +672,7 @@
                         <li><a href="#aprendizado" class="hover:text-brand-primary transition-colors duration-200">Aprendizado</a></li>
                         <li><a href="#para-quem" class="hover:text-brand-primary transition-colors duration-200">Para quem é</a></li>
                         <li><a href="#sobre" class="hover:text-brand-primary transition-colors duration-200">Sobre Henrique</a></li>
+                        <li><a href="v2/" class="hover:text-brand-primary transition-colors duration-200">Versão resumida</a></li>
                     </ul>
                 </div>
                 <div class="lg:col-span-2">

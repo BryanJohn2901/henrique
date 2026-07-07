@@ -148,6 +148,23 @@
             letter-spacing: 0.12em;
         }
 
+        .btn-submit {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border-radius: 0.75rem;
+            font-size: 0.6875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            line-height: 1.35;
+        }
+        @media (min-width: 400px) {
+            .btn-submit { font-size: 0.75rem; }
+        }
+
         .section-block { padding: 5rem 0; }
         @media (min-width: 768px) { .section-block { padding: 6.5rem 0; } }
 
@@ -598,9 +615,8 @@
                     </div>
                     <p class="error-msg text-red-400 text-xs mt-1 hidden">Informe o DDD e o número completo.</p>
                 </div>
-                <button type="submit" class="w-full bg-brand-primary text-brand-bg font-sans font-bold py-4 rounded-xl uppercase tracking-widest hover:shadow-[0_0_20px_rgba(232,184,74,0.6)] transition btn-submit mt-2 inline-flex items-center justify-center gap-2">
-                    <i class="fas fa-calendar-check"></i>
-                    Quero participar da aula gratuita
+                <button type="submit" class="btn-submit bg-brand-primary text-brand-bg font-sans hover:shadow-[0_0_20px_rgba(232,184,74,0.6)] transition mt-2">
+                    Garantir minha vaga
                 </button>
                 </div>
 
@@ -657,7 +673,7 @@
             const btnSubmit = form.querySelector('.btn-submit');
             if (btnSubmit) {
                 btnSubmit.disabled = false;
-                btnSubmit.innerHTML = '<i class="fas fa-calendar-check"></i> Quero participar da aula gratuita';
+                btnSubmit.innerHTML = 'Garantir minha vaga';
             }
         }
 

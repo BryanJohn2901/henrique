@@ -129,20 +129,33 @@ function patchHtml(html, { assetPrefix = '', canonicalPath = '/', isCompleta = f
   out = out.replace(/<title>[^<]*<\/title>/, '<title>Aula Gratuita | Henrique Batista | Instituto Valorize</title>');
   out = out.replace(/\(v2\)/g, '');
 
-  const seoBlock = `
-    <meta name="robots" content="index, follow">
-    <meta property="og:url" content="${canonical}">
-    <meta property="og:image" content="${ogImage}">
-    <meta property="og:image:alt" content="Aula gratuita com Henrique Batista - Instituto Valorize">
+  if (out.includes('property="og:url"')) {
+    out = out.replace(/<meta property="og:url" content="[^"]*">/, `<meta property="og:url" content="${canonical}">`);
+  } else {
+    out = out.replace('</head>', `    <meta property="og:url" content="${canonical}">\n</head>`);
+  }
+
+  out = out.replace(/<meta property="og:image" content="[^"]*">/, `<meta property="og:image" content="${ogImage}">`);
+  out = out.replace(/<meta name="twitter:image" content="[^"]*">/, `<meta name="twitter:image" content="${ogImage}">`);
+
+  if (!out.includes('name="robots"')) {
+    out = out.replace('<link rel="canonical"', '<meta name="robots" content="index, follow">\n    <link rel="canonical"');
+  }
+
+  if (!out.includes('twitter:card')) {
+    const seoBlock = `
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Aula Gratuita | Henrique Batista">
     <meta name="twitter:description" content="Personal Trainer e Nutricionista: pare de pensar como autônomo e comece a se comportar como empresa. Aula ao vivo com Henrique Batista.">
-    <meta name="twitter:image" content="${ogImage}">
-    <link rel="preconnect" href="https://unpkg.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>`;
-
-  if (!out.includes('twitter:card')) {
+    <meta name="twitter:image" content="${ogImage}">`;
     out = out.replace('<meta property="og:locale"', seoBlock + '\n    <meta property="og:locale"');
+  }
+
+  if (!out.includes('preconnect" href="https://unpkg.com"')) {
+    out = out.replace(
+      '</head>',
+      `    <link rel="preconnect" href="https://unpkg.com" crossorigin>\n    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>\n</head>`
+    );
   }
 
   out = out.replace(
